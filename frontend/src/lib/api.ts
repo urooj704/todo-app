@@ -5,7 +5,13 @@
 
 import { Task, TaskCreate, TaskUpdate, ApiError, Conversation, ConversationDetail, ChatResponse } from './types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+function normalizeApiBaseUrl(raw: string | undefined): string {
+  const fallback = 'http://localhost:8000/api';
+  const base = (raw || fallback).replace(/\/+$/, '');
+  return base.endsWith('/api') ? base : `${base}/api`;
+}
+
+const API_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_URL);
 
 class ApiClient {
   private accessToken: string | null = null;

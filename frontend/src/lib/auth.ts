@@ -7,7 +7,13 @@ import { api } from './api';
 import { User, Session } from './types';
 
 // Base URL for auth — same FastAPI server as the rest of the API
-const AUTH_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+function normalizeApiBaseUrl(raw: string | undefined): string {
+  const fallback = 'http://localhost:8000/api';
+  const base = (raw || fallback).replace(/\/+$/, '');
+  return base.endsWith('/api') ? base : `${base}/api`;
+}
+
+const AUTH_BASE = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_URL);
 
 // Simple in-memory session storage (in production, use secure cookies)
 let currentSession: Session | null = null;
