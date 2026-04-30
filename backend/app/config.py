@@ -17,12 +17,11 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:3000"
 
-    # Phase III: AI Chatbot
-    openai_api_key: str = ""
-    mcp_server_port: int = 8001
-    mcp_server_url: str = "http://localhost:8001"
-    chatkit_workflow_id: str = ""
-    next_public_app_url: str = "http://localhost:3000"
+    # AI Chatbot providers
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.0-flash"
+    grok_api_key: str = ""
+    grok_model: str = "grok-2-latest"
     max_conversation_history: int = 50
 
     @property

@@ -36,7 +36,7 @@ from mcp_server.tools.task_tools import register_task_tools
 
 register_task_tools(mcp_server)
 
-# Configure CORS to allow requests from OpenAI's hosted agent service
+# Configure CORS for hosted tool clients
 _app = mcp_server._mcp_server if hasattr(mcp_server, '_mcp_server') else None
 if hasattr(mcp_server, 'settings') and hasattr(mcp_server.settings, 'app'):
     _app = mcp_server.settings.app

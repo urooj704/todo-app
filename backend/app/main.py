@@ -15,7 +15,6 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
@@ -54,6 +53,11 @@ app.add_middleware(
 app.add_middleware(SecurityHeadersMiddleware)
 
 
+@app.get("/")
+async def root():
+    return {"service": "Todoo API", "health": "/health"}
+
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
@@ -63,10 +67,8 @@ async def health_check():
 # Import and include routers after app is created to avoid circular imports
 from app.routers import tasks  # noqa: E402
 from app.routers import chat  # noqa: E402
-from app.routers import chatkit  # noqa: E402
 from app.routers import auth  # noqa: E402
 
 app.include_router(auth.router, prefix="/api")
 app.include_router(tasks.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
-app.include_router(chatkit.router, prefix="/api")

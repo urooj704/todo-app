@@ -182,14 +182,6 @@ class ApiClient {
     return this.fetch<ConversationDetail>(`/${userId}/conversations/${conversationId}`);
   }
 
-  /**
-   * Get a ChatKit session token.
-   */
-  async getChatkitSession(): Promise<{ client_secret: string }> {
-    return this.fetch<{ client_secret: string }>('/chatkit/session', {
-      method: 'POST',
-    });
-  }
 }
 
 /**
